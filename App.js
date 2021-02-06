@@ -7,7 +7,7 @@ export default class Welcome extends Component {
   state = {
     trangValue: 0,
     vangValue: 0,
-    winValue: 12,
+    winValue: 20,
     gio: 0,
     phut: 0,
     giay: 0,
@@ -110,6 +110,7 @@ export default class Welcome extends Component {
         if (this.state.giay < 9) {
           this.setState({
             giay: this.state.giay + 1,
+            s: "0"
           });
         } else {
           this.setState({
@@ -119,23 +120,23 @@ export default class Welcome extends Component {
         }
 
       } else {
-        this.setState({ giay: 0 });
+        this.setState({ giay: 0, s: "0" });
         if (this.state.phut < 59) {
           if (this.state.phut < 9) {
-            this.setState({ phut: this.state.phut + 1 });
+            this.setState({ phut: this.state.phut + 1, m: "0" });
           } else {
             this.setState({ phut: this.state.phut + 1, m: "" });
           }
 
         } else {
           if (this.state.gio < 9) {
-            this.setState({ phut: 0, gio: this.state.gio + 1 });
+            this.setState({ phut: 0, m: "0", gio: this.state.gio + 1, h: "0" });
             Tts.stop();
             Tts.getInitStatus().then(() => {
               Tts.speak(this.state.gio + " tiếng đã qua!");
             });
           } else {
-            this.setState({ phut: 0, gio: this.state.gio + 1, h:"" });
+            this.setState({ phut: 0, gio: this.state.gio + 1, h: "" });
             Tts.stop();
             Tts.getInitStatus().then(() => {
               Tts.speak(this.state.gio + " tiếng đã qua!");
