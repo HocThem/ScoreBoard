@@ -7,10 +7,10 @@ export default class Welcome extends Component {
   state = {
     trangValue: 0,
     vangValue: 0,
-    winValue: 10,
-    gio: 0,
-    phut: 0,
-    giay: 0,
+    winValue: 12,
+    gio: "00",
+    phut: "00",
+    giay: "00",
     nameA: "Đội A",
     nameB: "Đội B"
   };
@@ -29,12 +29,12 @@ export default class Welcome extends Component {
         Tts.speak(this.state.trangValue + " " + this.state.vangValue);
       }
       if (this.state.trangValue == this.state.winValue) {
-        Tts.speak("Chiến thắng");
+        Tts.speak(this.state.nameA+" thắng");
       }
     });
   }
   _onTruTrang = () => {
-    if (this.state.trangValue < this.state.winValue & this.state.trangValue > 0) {
+    if (this.state.trangValue <= this.state.winValue & this.state.trangValue > 0) {
       this.setState({
         trangValue: this.state.trangValue - 1,
       })
@@ -48,7 +48,7 @@ export default class Welcome extends Component {
         Tts.speak(this.state.trangValue + " " + this.state.vangValue);
       }
       if (this.state.trangValue == this.state.winValue) {
-        Tts.speak("Chiến thắng");
+        Tts.speak(this.state.nameA+" thắng");
       }
     });
   }
@@ -67,12 +67,12 @@ export default class Welcome extends Component {
         Tts.speak(this.state.vangValue + " " + this.state.trangValue);
       }
       if (this.state.vangValue == this.state.winValue) {
-        Tts.speak("Chiến thắng");
+        Tts.speak(this.state.nameB+" thắng");
       }
     });
   }
   _onTruVang = () => {
-    if (this.state.vangValue < this.state.winValue & this.state.vangValue > 0) {
+    if (this.state.vangValue <= this.state.winValue & this.state.vangValue > 0) {
       this.setState({
         vangValue: this.state.vangValue - 1,
       })
@@ -86,7 +86,7 @@ export default class Welcome extends Component {
         Tts.speak(this.state.vangValue + " " + this.state.trangValue);
       }
       if (this.state.vangValue == this.state.winValue) {
-        Tts.speak("Chiến thắng");
+        Tts.speak(this.state.nameB+" thắng");
       }
     });
   }
@@ -116,9 +116,9 @@ export default class Welcome extends Component {
         justifyContent: 'center',
         alignItems: 'stretch',
       }}>
-        <TouchableOpacity
+        <View
           style={{ width: "50%", height: "100%", backgroundColor: '#34A853', justifyContent: "center", alignItems: 'center' }}
-          onPress={() => this._onPressTrang()}
+          onStartShouldSetResponderCapture={() => this._onPressTrang()}
         >
           <View
             style={{ position: "absolute", top: 0, left: 0, width: "60%", height: 50, backgroundColor: '#4285F4', borderRadius: 2, justifyContent: "center", alignItems: 'center', borderBottomEndRadius: 50}}>
@@ -126,19 +126,13 @@ export default class Welcome extends Component {
               style={{ height: 40, textAlign: "center", textAlignVertical: "center", fontSize: 26, color: "white" }}>{this.state.nameA}
             </Text>
           </View>
-          <Text style={{ fontSize: 200 }}>
+          <Text style={{ fontSize: 200, color: "white" }}>
             {this.state.trangValue}
           </Text>
-          <View
-            style={{ position: "absolute", bottom: 0, left: 0, width: 60, height: 60, backgroundColor: '#BBBBBB', borderRadius: 2, justifyContent: "center", alignItems: 'center', borderTopEndRadius: 50 }}>
-            <Text onPress={() => this._onTruTrang()}
-              style={{ width: 40, height: 40, textAlign: "center", textAlignVertical: "center", fontSize: 26, color: "white" }}>-1
-              </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
+        </View>
+        <View
           style={{ width: "50%", height: "100%", backgroundColor: '#FBBC05', justifyContent: "center", alignItems: 'center' }}
-          onPress={() => this._onPressVang()}
+          onStartShouldSetResponderCapture={() => this._onPressVang()}
         >
           <View
             style={{ position: "absolute", top: 0, right: 0, width: "60%", height: 50, backgroundColor: '#4285F4', borderRadius: 2, justifyContent: "center", alignItems: 'center', borderBottomStartRadius: 50 }}>
@@ -146,26 +140,34 @@ export default class Welcome extends Component {
               style={{ height: 40, textAlign: "center", textAlignVertical: "center", fontSize: 26, color: "white" }}>{this.state.nameB}
             </Text>
           </View>
-          <Text style={{ fontSize: 200 }}>
+          <Text style={{ fontSize: 200, color: "white" }}>
             {this.state.vangValue}
           </Text>
-          <View
-            style={{ position: "absolute", bottom: 0, right: 0, width: 60, height: 60, backgroundColor: '#BBBBBB', borderRadius: 2, justifyContent: "center", alignItems: 'center', borderTopStartRadius: 50 }}>
-            <Text onPress={() => this._onTruVang()}
-              style={{ width: 40, height: 40, textAlign: "center", textAlignVertical: "center", fontSize: 26, color: "white" }}>-1
-              </Text>
-          </View>
-        </TouchableOpacity>
+          
+        </View>
         <View style={{ position: "absolute", top: 0, width: "20%", justifyContent: "center", alignItems: 'center', height: 80, backgroundColor: '#EA4335', borderRadius: 2, justifyContent: "center", alignItems: 'center', borderBottomEndRadius: 300, borderBottomStartRadius: 300 }}>
           <Text
             style={{ position:"absolute", top:0, textAlign: "center", textAlignVertical: "center", fontSize: 50, color: "white" }}
           >{this.state.winValue}</Text>
         </View>
-        <View style={{ position: "absolute", bottom: 0, width: "40%", justifyContent: "center", alignItems: 'center', height: 50, backgroundColor: '#EA4335', borderRadius: 6, justifyContent: "center", alignItems: 'center'}}>
+        <View style={{ position: "absolute", bottom: 0, width: "25%", justifyContent: "center", alignItems: 'center', height: 50, backgroundColor: '#EA4335', borderRadius: 6, justifyContent: "center", alignItems: 'center'}}>
           <Text
             style={{ position:"absolute", bottom:0, textAlign: "center", textAlignVertical: "center", fontSize: 40, color: "white" }}
-          >{this.state.winValue}</Text>
+          >{this.state.gio}:{this.state.phut}:{this.state.giay}</Text>
         </View>
+
+        <View
+            style={{ position: "absolute", bottom: 0, left: 0, width: 60, height: 60, backgroundColor: '#BBBBBB', borderRadius: 2, justifyContent: "center", alignItems: 'center', borderTopEndRadius: 50 }}>
+            <Text onPress={() => this._onTruTrang()}
+              style={{ width: 40, height: 40, textAlign: "center", textAlignVertical: "center", fontSize: 26, color: "white" }}>-1
+              </Text>
+          </View>
+        <View
+            style={{ position: "absolute", bottom: 0, right: 0, width: 60, height: 60, backgroundColor: '#BBBBBB', borderRadius: 2, justifyContent: "center", alignItems: 'center', borderTopStartRadius: 50 }}>
+            <Text onPress={() => this._onTruVang()}
+              style={{ width: 40, height: 40, textAlign: "center", textAlignVertical: "center", fontSize: 26, color: "white" }}>-1
+              </Text>
+          </View>
       </View>
     );
   }
