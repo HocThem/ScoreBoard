@@ -33,7 +33,7 @@ export default class Welcome extends Component {
         Tts.speak(this.state.trangValue + " " + this.state.vangValue);
       }
       if (this.state.trangValue == this.state.winValue) {
-        Tts.speak(this.state.nameA + " thắng");
+        Tts.speak("Chúc mừng "+this.state.nameA + " đã thắng");
       }
     });
   }
@@ -52,7 +52,7 @@ export default class Welcome extends Component {
         Tts.speak(this.state.trangValue + " " + this.state.vangValue);
       }
       if (this.state.trangValue == this.state.winValue) {
-        Tts.speak(this.state.nameA + " thắng");
+        Tts.speak("Chúc mừng "+this.state.nameA + " đã thắng");
       }
     });
   }
@@ -71,7 +71,7 @@ export default class Welcome extends Component {
         Tts.speak(this.state.vangValue + " " + this.state.trangValue);
       }
       if (this.state.vangValue == this.state.winValue) {
-        Tts.speak(this.state.nameB + " thắng");
+        Tts.speak("Chúc mừng "+this.state.nameB + " đã thắng");
       }
     });
   }
@@ -90,7 +90,7 @@ export default class Welcome extends Component {
         Tts.speak(this.state.vangValue + " " + this.state.trangValue);
       }
       if (this.state.vangValue == this.state.winValue) {
-        Tts.speak(this.state.nameB + " thắng");
+        Tts.speak("Chúc mừng "+this.state.nameB + " đã thắng");
       }
     });
   }
