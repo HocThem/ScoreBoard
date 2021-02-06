@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, Button } from 'react-native';
+import { View, Text, Modal, Alert, TextInput } from 'react-native';
 import { StatusBar } from 'react-native';
 import Tts from 'react-native-tts';
 Tts.setDefaultLanguage('vn-VI');
@@ -7,15 +7,16 @@ export default class Welcome extends Component {
   state = {
     trangValue: 0,
     vangValue: 0,
-    winValue: 20,
+    winValue: 0,
     gio: 0,
     phut: 0,
     giay: 0,
     h: "0",
     m: "0",
     s: "0",
-    nameA: "Đội A",
-    nameB: "Đội B"
+    nameA: "",
+    nameB: "",
+    isModal: true
   };
   _onPressTrang = () => {
     if (this.state.trangValue < this.state.winValue) {
@@ -146,13 +147,55 @@ export default class Welcome extends Component {
       }
     }, 1000);
   }
+  _onChangeTextA = value => {
+    this.setState({
+      nameA: value,
+    });
+  };
+  _onChangeTextB = value => {
+    this.setState({
+      nameB: value,
+    });
+  };
+  _onChangeTextWin = value => {
+    this.setState({
+      winValue: value,
+    });
+  };
+  setModalVisible() {
+    if (this.state.nameA == "") {
+      Tts.stop();
+      Tts.getInitStatus().then(() => {
+        Tts.speak("Vui lòng nhập tên đội một!");
+      });
+    } else if (this.state.nameB == "") {
+      Tts.stop();
+      Tts.getInitStatus().then(() => {
+        Tts.speak("Vui lòng nhập tên đội hai!");
+      });
+    } 
+    else if (this.state.winValue == "") {
+      Tts.stop();
+      Tts.getInitStatus().then(() => {
+        Tts.speak("Vui lòng nhập điểm số kết thúc trận đấu!");
+      });
+    } 
+    else {
+      this.setState({ isModal: false });
+      this.dongHo();
+      Tts.stop();
+      Tts.getInitStatus().then(() => {
+        Tts.speak("Trận đấu giữa " + this.state.nameA + " và " + this.state.nameB + " Mỗi sét đấu " + this.state.winValue + " điểm");
+        Tts.speak("Bắt đầu!");
+      });
+    }
+  }
   componentDidMount() {
     StatusBar.setHidden(true);
-    // Tts.stop();
-    // Tts.getInitStatus().then(() => {
-    //     Tts.speak("Xin chào! Hãy điền thông tin để bắt đầu ván đấu!");
-    // });
-    this.dongHo();
+    Tts.stop();
+    Tts.getInitStatus().then(() => {
+        Tts.speak("Xin chào! Hãy điền thông tin để bắt đầu ván đấu!");
+    });
   }
   render() {
     return (
@@ -217,7 +260,50 @@ export default class Welcome extends Component {
             style={{ width: 40, height: 40, textAlign: "center", textAlignVertical: "center", fontSize: 26, color: "white" }}>-1
               </Text>
         </View>
+        <Modal
+          visible={this.state.isModal}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+          }}
+        >
+          <View style={{ width: "100%", height: "100%", backgroundColor: "gray", justifyContent: "center", alignItems: "center" }}>
+            <Text style={{ fontSize: 40, color: "white", }}>NHẬP THÔNG TIN TRẬN ĐẤU</Text>
+            <View style={{ width: "80%", height: 60, backgroundColor: "white", borderRadius: 12, marginTop: 20 }}>
+              <TextInput
+                style={{ height: 60, paddingLeft: 30, fontSize: 26 }}
+                placeholder={'Tên đội một (Bên trái màn hình)'}
+                placeholderTextColor="black"
+                value={this.state.nameA}
+                onChangeText={this._onChangeTextA}
+              />
+            </View>
+            <View style={{ width: "80%", height: 60, backgroundColor: "white", borderRadius: 12, marginTop: 20 }}>
+              <TextInput
+                style={{ height: 60, paddingLeft: 30, fontSize: 26 }}
+                placeholder={'Tên đội hai (Bên phải màn hình)'}
+                placeholderTextColor="black"
+                value={this.state.nameB}
+                onChangeText={this._onChangeTextB}
+              />
+            </View>
+            <View style={{ width: "80%", height: 60, backgroundColor: "white", borderRadius: 12, marginTop: 20 }}>
+              <TextInput
+                style={{ height: 60, paddingLeft: 30, fontSize: 26 }}
+                placeholder={'Điểm kết thúc trận đấu!'}
+                placeholderTextColor="black"
+                keyboardType="number-pad"
+                value={this.state.winValue}
+                onChangeText={this._onChangeTextWin}
+              />
+            </View>
+            <View
+              style={{ width: "10%", height: "10%", borderRadius: 6, backgroundColor: '#34A853', justifyContent: "center", alignItems: 'center', marginTop: 20 }}
+              onStartShouldSetResponderCapture={() => this.setModalVisible()}
+            ><Text style={{ color: "white" }}>Bắt Đầu</Text></View>
+          </View>
+        </Modal>
       </View>
+
     );
   }
 }
